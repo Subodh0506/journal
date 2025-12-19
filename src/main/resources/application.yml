@@ -2,6 +2,10 @@ server:
   port: 8080
 
 spring:
+  security:
+    user:
+      name: user
+      password: password
   data:
     mongodb:
       uri: mongodb+srv://ysubodh306_db_user:yLxNGoy3nyz5dFU0@cluster0.akzcvnf.mongodb.net/?appName=Cluster0

@@ -20,17 +20,12 @@ public class JournalController {
 
     private final JournalService journalService;
     
-    @PostMapping ("/userName/{userName}")// create journal entry
-    public ResponseEntity<UserEntity> createJournal(@RequestBody JournalEntity journalEntity, @PathVariable String userName) {
-        UserEntity result = journalService.createJournal(journalEntity, userName);
+    @PostMapping// create journal entry
+    public ResponseEntity<UserEntity> createJournal(@RequestBody JournalEntity journalEntity) {
+        UserEntity result = journalService.createJournal(journalEntity);
         if(result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/health") // health check endpoint
-    public ResponseEntity<String> healthCheck() {
-        return ResponseEntity.ok("Health check successful");
     }
 
     @GetMapping("/id/{id}") // get journal by id
@@ -64,5 +59,10 @@ public class JournalController {
     public ResponseEntity<String> deleteJournal(@PathVariable ObjectId id) {
         String result = journalService.deleteJournal(id);
         return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteAllJournals() {
+        return new ResponseEntity<>(journalService.deleteAllJournals(), HttpStatus.ACCEPTED);
     }
 }

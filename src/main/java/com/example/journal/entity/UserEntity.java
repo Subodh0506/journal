@@ -27,5 +27,7 @@ public class UserEntity {
     @DBRef
     private List<JournalEntity> journalEntries = new ArrayList<>();
 
+    private String []roles;
+
     private LocalDateTime createdTime;
 }

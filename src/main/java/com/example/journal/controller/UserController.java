@@ -17,11 +17,6 @@ public class UserController {
 
     private UserService service;
 
-    @PostMapping // createe user
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity userEntity) {
-        return new ResponseEntity<>(service.createUser(userEntity), HttpStatus.CREATED);
-    }
-
     @GetMapping // get all users
     public ResponseEntity<List<UserEntity>> getAllUsers() {
         List<UserEntity> result = service.getAllUsers();
@@ -49,5 +44,10 @@ public class UserController {
     @DeleteMapping("/name/{name}")
     public ResponseEntity<String> deleteUser(@PathVariable String name) {
         return new ResponseEntity<>(service.deleteUser(name), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteAllUsers() {
+        return new ResponseEntity<>(service.deleteAllUsers(), HttpStatus.ACCEPTED);
     }
 }

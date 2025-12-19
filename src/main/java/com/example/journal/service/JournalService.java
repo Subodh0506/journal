@@ -6,6 +6,9 @@ import java.util.List;
 import com.example.journal.entity.UserEntity;
 import com.example.journal.repository.UserRepo;
 import org.bson.types.ObjectId;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +24,12 @@ public class JournalService {
 
     private final UserRepo userRepo;
 
-    public UserEntity createJournal(JournalEntity journalEntity, String userName) {
-        UserEntity check = userRepo.findByUserName(userName);
-        if(check == null)
-            return null;
+    public UserEntity createJournal(JournalEntity journalEntity) {
+        Authentication auth =
+                SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("user name is --> "+ auth.getName());
+        UserEntity check = userRepo.findByUserName(auth.getName());
+
         journalEntity.setDate(LocalDateTime.now());
         List<JournalEntity> appends = check.getJournalEntries();
         appends.add(journalEntity);
@@ -60,6 +65,11 @@ public class JournalService {
             return "journal not exists";
         journalRepo.deleteById(id);
         return "journal deleted";
+    }
+
+    public String deleteAllJournals() {
+        journalRepo.deleteAll();
+        return "deleted all journals";
     }
 
 }
