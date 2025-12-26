@@ -1,0 +1,17 @@
+services:
+  mongo:
+    image: mongo:6.0                  # pin to a stable major version instead of 'latest'
+    restart: unless-stopped
+    env_file: .env                     # optional: load credentials from .env (safer than embedding in repo)
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-example}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-journaldb}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+    driver: local
